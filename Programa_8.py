@@ -1,6 +1,5 @@
 # Escribe un programa que imprima los numeros pares del 2 al 20 utilizando un bulve while
 #commit: "Programa 8- numeros Pares"
-
 contador = 2
 
 print("--------------------------")
