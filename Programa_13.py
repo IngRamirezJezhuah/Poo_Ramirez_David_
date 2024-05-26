@@ -5,4 +5,5 @@ listaPaises = ["Argentina", "Paris" , "Japon", "Paraguay","Brasil", "Kampuchea",
 
 
 for listaPaises in listaPaises :
+    print("-------------------")
     print(listaPaises)

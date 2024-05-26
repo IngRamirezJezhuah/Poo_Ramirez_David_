@@ -8,9 +8,13 @@ lista = [1, 2, 3, "ANA"]
 
 #lista.apend(elemento) añade elemento al final de la lista
 #lista.append("Ana")
+
 #lista.insert(i,elemento)
 #lista.insert(0,0)#dice posicion y que quiere agregar
 #print(lista)
+
+#lista inster(i, elemento)
+#inserta elementos en la posision i
 
 #Lista extend su funcion es implementar a una lista los elementos de otra lista 
 #lista2 =  [4,5,6]
