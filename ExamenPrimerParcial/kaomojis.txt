@@ -1,0 +1,27 @@
+
+
+૮ • ﻌ - ა
+
+٩(ˊᗜˋ*)و ♡
+
+(੭ ˊ^ˋ)੭ ♡
+
+☆✧˖°⋆.˚
+
+programa 1:
+programa que ppida al ususario un numero de indentificador si es un numero positivo negativo o cero [elif]
+
+programa 2:
+Programa que pregunte al usuario que area quiere calcular [cuadrado,triangulo o rectangulo] y repite  el proceso hasta  que el ususarios
+desee salir
+Notas: imprime el menu con las opciones cauntas veces sea necesario (while) y hacer la operacion necesario e imprimir el resultado segun la opcion
+
+programa 3:
+programa para que categorice las edades de una lista minimo 10 edades en
+
+infancia(6-11)
+adolecencia(12-17)
+jovenes(18-26)
+adultos(27 en adelante)
+
+commit examen parcial 1
