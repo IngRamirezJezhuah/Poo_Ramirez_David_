@@ -122,7 +122,7 @@ print(tupla_repetida)
 #Asignar elementos de una tupla a diferentes variables
 #tupla = (1,2,3) a,b,c = tupla
 tuplita = (1,2,3)
-a = tuplita
+a,b,c = tuplita
 b = tuplita
 c = tuplita
 print("---------------------------------------------")
