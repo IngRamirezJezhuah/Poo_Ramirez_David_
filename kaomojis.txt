@@ -1,13 +1,22 @@
 
 
-૮ • ﻌ - ა
+૮ • ﻌ - ა             ଘ(∩^o^)⊃━☆゜
 
-٩(ˊᗜˋ*)و ♡
+٩(ˊᗜˋ*)و ♡           ◟( ˃̶͈◡ ˂̶͈ )◞
 
-(੭ ˊ^ˋ)੭ ♡
+(੭ ˊ^ˋ)੭ ♡           (๑>؂•̀๑)
 
-☆✧˖°⋆.˚
+☆✧˖°⋆.˚ 
 
+૮₍´｡ᵔ ꈊ ᵔ｡`₎ა         ଘ(੭ˊᵕˋ)੭* ੈ✩‧₊
+
+(｡- .•)
+
+(╥﹏╥)
+
+(=^ ◡ ^=)
+
+( ˶ˆ꒳ˆ˵ )
 programa 1:
 programa que ppida al ususario un numero de indentificador si es un numero positivo negativo o cero [elif]
 
