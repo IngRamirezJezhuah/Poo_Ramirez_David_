@@ -6,20 +6,50 @@ class Perro:
 
     #aca pues definimos las acciones que vamos a hacer mis metodos normales o funciones
     def Ladrar(self):
-        print("woof")
+        print("woof ૮ • ﻌ • ა")
     def Comer(self):
         print("comiendo ...")
+    def Describir(self):
+        print("soy un perro llamado:",self.nombre)
+        print("Soy de raza:",self.raza)
+        print("Tengo:",self.edad,"añitos")
+
+class Dueño:
+    def __init__(self,nombre):
+        self.nombre = nombre
+        self.perros = []
+    def Añadir_Perro(self,perro):
+        self.perros.append(perro)
+        print(perro.nombre, "añadido a la lista de perros de", self.nombre)   
+    def Listar_Perro(self):
+        print(self.nombre,"tiene los siguientes Perros:")
+        for perro in self.perros:
+            print("૮ • ﻌ • ა",perro.nombre)
+    def Pasear_Perros(self):
+        print(self.nombre,"esta paseando a sus perros: ")
+        for perro in self.perros:
+            perro.Ladrar()
 
 #crear los objetos
-perro1 = Perro("Firulais","Chiuahua",3)
-perro2 = Perro("Max","Pitbull",5)
 
-print("El nombre de mi objeto 1 es:",perro1.nombre)
-print("La edad de mi objeto 2:",perro2.edad)
-print("Mi perro 2 es:",perro2.nombre, perro2.edad)
+Perro1 = Perro("Firulais","Chiuahua",3)
+Perro2 = Perro("Max","Pitbull",5)
 
-print(perro1.nombre,"ladra")
-print(perro1.nombre,":")
-perro1.Ladrar()
-print(perro2.nombre,"Come")
-perro2.Comer()
+#print("El nombre de mi objeto 1 es:",Perro1.nombre)
+#print("La edad de mi objeto 2:",Perro2.edad)
+#print("Mi perro 2 es:",Perro2.nombre, Perro2.edad)
+
+#print(Perro1.nombre,"ladra")
+#print(Perro1.nombre,":")
+#Perro1.Ladrar()
+#print(Perro2.nombre,"Come")
+#Perro2.Comer()
+
+dueño = Dueño("DJ")
+
+dueño.Añadir_Perro(Perro1)
+dueño.Añadir_Perro(Perro2)
+
+dueño.Listar_Perro()
+
+dueño.Pasear_Perros()
