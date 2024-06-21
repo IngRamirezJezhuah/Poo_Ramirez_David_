@@ -2,7 +2,7 @@
 # metodos, luego crea objetos a partir de la clase y usa 
 # practica usando los metodos.
 # documenta tu codigo. en otras palabras comentarios 
-# commit "programa 24 - Clases y Objetos Complementado#/
+# commit "programa 24 - Clases y Objetos Complementado"#/
 import time 
 class Carro:
     def __init__(self,Marca,Modelo,Precio):
@@ -39,29 +39,42 @@ class Carro:
 class Dueño:
     def __init__(self, nombre):
         self.nombre = nombre
-        self.carros = carro
+        self.carros = []
     def Comprar_carro(self,carro):
-        print("acabas de comprar:",self.carro)
+        self.carros.append(carro)
+        print("acabas de comprar:",self.carros)
         time.sleep(2)
         print("Comprado")
     def Listar_carros(self):
-        pass
+        print(self.nombre,"tiene los siguientes carros:")
+        
+        for carro in self.carros:
+            print(carro.Marca)
     def Usar_Carro(self):
-        pass
+        print(self.nombre,"esta paseando en coche")
+        for carros in self.carros:
+            carros.Encender(),
+            carros.Acelerar()
 
 Ferrarri = Carro("Ferrari","A2",12000)
 Corvet = Carro("Corvet","S10",3300)
 Mustang = Carro("Mustang","c23",7800)
 
-print("Carro")
-print(Corvet.Marca,"(｡- .•)")
-Corvet.Encender()
-print("----------------------------------")
-print("Carro")
-print(Ferrarri.Marca,"(｡- .•)")
-Ferrarri.Acelerar()
-print("----------------------------------")
-print("Carro",Mustang.Marca,"(｡- .•)")
-Mustang.Frenar()
-print("----------------------------------")
-print("chao chao ૮ • ﻌ - ა ")
+#print("Carro")
+#print(Corvet.Marca,"(｡- .•)")
+#Corvet.Encender()
+#print("----------------------------------")
+#print("Carro")
+#print(Ferrarri.Marca,"(｡- .•)")
+#Ferrarri.Acelerar()
+#print("----------------------------------")
+#print("Carro",Mustang.Marca,"(｡- .•)")
+#Mustang.Frenar()
+#print("----------------------------------")
+#print("chao chao ૮ • ﻌ - ა ")
+
+dueño = Dueño("Dj")
+dueño.Comprar_carro(Ferrarri)
+dueño.Comprar_carro(Mustang)
+dueño.Listar_carros()
+dueño.Usar_Carro()
