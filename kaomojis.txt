@@ -16,7 +16,7 @@
 
 (=^ ◡ ^=)            ૮₍ ˃ ⤙ ˂ ₎ა
 
-( ˶ˆ꒳ˆ˵ )
+( ˶ˆ꒳ˆ˵ )              ૮ • ﻌ • ა  
 programa 1:
 programa que ppida al ususario un numero de indentificador si es un numero positivo negativo o cero [elif]
 
