@@ -7,31 +7,31 @@ class Carro:
         self.Marca = Marca
         self.Modelo = Modelo
         self.Precio = Precio
-    def Encender(self):
+    def Encender(self):# en este lo que hace es tal cual encenderlo
         print("encendiendo...")
-        time.sleep(2)
+        time.sleep(2)#uso la libreria de time para que a la hora de imprimirlo se tarde
         print("...")
         time.sleep(1)
         print("...")
         time.sleep(1)
-        print("brum burm brrrrrrr.....")
+        print("brum burm brrrrrrr.....")#aqui se supone que ya se encendio
         time.sleep(2)
-    def Acelerar(self):
-        n = 0
+    def Acelerar(self):#en este cree y simule lo que es acelerar
+        n = 0 # este es mi contador
         print("acelerando...")
-        time.sleep(2)
-        while n <= 300:
-            print("velocidad...", n,"Km","=͟͟͞͞(꒪ᗜ ꒪‧̣̥̇)")
+        time.sleep(2)#igual hago que se tarde en aparecer para dar la ilucion de acelerar
+        while n <= 300:#aqui use un ciclo para que se repitiera hasta 300
+            print("velocidad...", n,"Km","=͟͟͞͞(꒪ᗜ ꒪‧̣̥̇)")#hasta le agregue un kaomoji que simula la aceleracion
             n += 50
             time.sleep(1)
-    def Frenar(self):
-        print("=͟͟͞͞(꒪ᗜ꒪‧̣̥̇)frenando....")
+    def Frenar(self):#aqui lo que hace es edtenerlo
+        print("=͟͟͞͞(꒪ᗜ꒪‧̣̥̇)frenando....") #como estas acelerando tienes que frenas
         time.sleep(1)
-        print("Σ(ﾟ口ﾟ;)//")
+        print("Σ(ﾟ口ﾟ;)//")#empiexas a frenar
         time.sleep(1)
-        print("૮₍ ˃ ⤙ ˂ ₎ა=͟͟͞͞(=͟͟͞͞(")
+        print("૮₍ ˃ ⤙ ˂ ₎ა=͟͟͞͞(=͟͟͞͞(")#sientes el golpe de la frenada
         time.sleep(1)
-        print("frenado (๑>؂•̀๑)")
+        print("frenado (๑>؂•̀๑)")# frenaste
         time.sleep(1)
 
 Ferrarri = Carro("Ferrari","A2",12000)
