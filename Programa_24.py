@@ -2,7 +2,7 @@
 # metodos, luego crea objetos a partir de la clase y usa 
 # practica usando los metodos.
 # documenta tu codigo. en otras palabras comentarios 
-# commit "programa 24 - Clases y Objetos Complementado"#/
+# commit "programa 24 - Clases y Objetos Agregacion"#/
 import time 
 class Carro:
     def __init__(self,Marca,Modelo,Precio):
