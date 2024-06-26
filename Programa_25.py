@@ -1,4 +1,4 @@
-#commit - programa 24 - Clases y Objetos Agregacion"
+#commit - programa 25 - Clases y Objetos Agregacion"
 import time 
 class Carro:
     def __init__(self,Marca,Modelo,Precio):
