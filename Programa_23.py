@@ -1,6 +1,6 @@
 #crea un programa que contenga una clase, con al menos 3 atributos y 3 metodos
 # luego crea al menos 2 objetos a partir de la clase y usa algunos atributos y metodos
-# Documenta tu codigo. commit "programa23 - Clases y Objetos" #/
+# Documenta tu codigo. commit "programa 23 - Clases y Objetos" #/
 import time 
 class Carro:
     def __init__(self,Marca,Modelo,Precio):
