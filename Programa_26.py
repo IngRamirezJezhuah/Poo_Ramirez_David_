@@ -1,4 +1,4 @@
-#commit - programa 24 - Clases y Objetos-Composicion"
+#commit - programa 26 - Clases y Objetos-Composicion"
 import time 
 class Carro:
     def __init__(self,Marca,Modelo,Precio):
@@ -85,7 +85,7 @@ class Tuneado:
         self.color = color
         self.material = material
     def describir(self):
-        print("este collar de color", 
+        print("este de color", 
         self.color,"y material", self.material)
     def Poner_tuneada(self,tuneado):
         self.tuneado = tuneado
