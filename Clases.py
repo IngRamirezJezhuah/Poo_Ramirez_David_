@@ -7,8 +7,10 @@ class Perro:
     #aca pues definimos las acciones que vamos a hacer mis metodos normales o funciones
     def Ladrar(self):
         print("woof ૮ • ﻌ • ა")
+
     def Comer(self):
         print("comiendo ...")
+
     def Describir(self):
         print("soy un perro llamado:",self.nombre)
         print("Soy de raza:",self.raza)
@@ -63,8 +65,21 @@ class Collar:
     def Poner_collar(self,collar):
         self.collar = collar
     
+#Herencia
+class PerroDeServicio(Perro):#para indicar herencia entre parentesis va superclase, y la clase hija es la de fuera
+    def __init__(self,nombre,raza,edad, tipo_servicio):
+        super().__init__(nombre,raza,edad)#este es solo para llamarlo a la super clase, se usa el coon codigo super
+        self.tipo_servicio = tipo_servicio#este es el nuevo atributo de la clase que heredo
+        #por esta razon ya no se vuelve a repetir solo lo hereda
+    def Trabajar(self):
+        print(self.nombre, "esta trabajando como perro ૮ • ﻌ • ა  de Servicio siendo:",
+            self.tipo_servicio)#al ser heredado se puede usar el '.' nombre por que, al heredarlo se puede llamar a si mismo
+    def Describir(self):
+        #se pone super(), y el metodo que queremos jalar
+        super().Describir()#lo chido de la herencia es que ya no se tiene que volver a poner el metodo, solo se usa el super y ya lo tienes
+        print("Soy un perro de servicio de tipo:",
+            self.tipo_servicio,"૮ • ﻌ • ა ")
 #crear los objetos
-
 Perro1 = Perro("Firulais","Chiuahua",3)
 Perro2 = Perro("Max","Pitbull",5)
 
@@ -92,11 +107,17 @@ veterinario = Veterinario("Dr Richie")
 #veterinario.atender_perro(Perro2)
 #veterinario.listar_perros_atendidos()
 
-collar1 = Collar("rojo","cuero")
-collar2 = Collar("plateado","acero")
+#collar1 = Collar("rojo","cuero")
+#collar2 = Collar("plateado","acero")
+#print("-----------------------------------------")
+#print("El nombre de mi perro es:",Perro1.nombre)
+#Perro1.Poner_collar(collar1)
+#Perro1.Describir()
+#print("-----------------------------------------")
+#Perro2.Describir()
+
+perro_servicio = PerroDeServicio("Dandy","Labrador", 5, "Guia")
 print("-----------------------------------------")
-print("El nombre de mi perro es:",Perro1.nombre)
-Perro1.Poner_collar(collar1)
-Perro1.Describir()
+perro_servicio.Trabajar()
+perro_servicio.Describir()
 print("-----------------------------------------")
-Perro2.Describir()
