@@ -15,6 +15,7 @@ class Perro:
         print("soy un perro llamado:",self.nombre)
         print("Soy de raza:",self.raza)
         print("Tengo:",self.edad,"añitos")
+        #se define mi 
         if self.collar:
             print("llevo puesto collar de color",
                 self.collar.color,"y material", self.collar.material)
@@ -22,6 +23,9 @@ class Perro:
             print("no tiene collar")
     def Poner_collar(self,collar):
         self.collar = collar
+#esta ya es una dependecnia, ho se debe que hacer el atributo, esta solo se pude usar si se toma
+    def Jugar(self,juguete):
+        print(self.nombre,"esta jugando con",juguete.nombre)
 
 class Dueño:
     def __init__(self,nombre):
@@ -79,8 +83,16 @@ class PerroDeServicio(Perro):#para indicar herencia entre parentesis va supercla
         super().Describir()#lo chido de la herencia es que ya no se tiene que volver a poner el metodo, solo se usa el super y ya lo tienes
         print("Soy un perro de servicio de tipo:",
             self.tipo_servicio,"૮ • ﻌ • ა ")
+        
+class Juguete:
+    def __init__(self,nombre,material):
+        self.nombre = nombre
+        self.material = material
+    def Describir(self):
+        print(self.nombre,"esta hecho de",self.material)
+
 #crear los objetos
-Perro1 = Perro("Firulais","Chiuahua",3)
+Perro1 = Perro("Firulais","Chiuahua",3,)
 Perro2 = Perro("Max","Pitbull",5)
 
 #print("El nombre de mi perro es:",Perro1.nombre)
@@ -117,7 +129,11 @@ veterinario = Veterinario("Dr Richie")
 #Perro2.Describir()
 
 perro_servicio = PerroDeServicio("Dandy","Labrador", 5, "Guia")
-print("-----------------------------------------")
-perro_servicio.Trabajar()
-perro_servicio.Describir()
-print("-----------------------------------------")
+#print("-----------------------------------------")
+#perro_servicio.Trabajar()
+#perro_servicio.Describir()
+#print("-----------------------------------------")
+
+juguete = Juguete("Pelota","plastico")
+
+Perro1.Jugar(juguete)
