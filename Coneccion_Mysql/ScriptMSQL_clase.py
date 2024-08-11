@@ -31,18 +31,7 @@ Mostrar_Base()
 #    Mostrar_Base
 #else:pass
 #////////////////////Registrar A la Base
-def register():
-    if cursor == 'POST':
-        id = cursor.form['id']
-        nombre = cursor.form['nombre']
-        correo = cursor.form['correo']
-        direccion = cursor.form['direccion']
-        cursor.execute(
-        "INSERT INTO alumnos (nombre, correo, direccion) VALUES (%s, %s, %s, %s)",
-        (nombre,correo, direccion)
-        )
-        cursor.commit()
-        
+
 
 Nombre = str(input("ingrese su Nombre:"))
 Correo = str(input("ingrese su Correo:"))
