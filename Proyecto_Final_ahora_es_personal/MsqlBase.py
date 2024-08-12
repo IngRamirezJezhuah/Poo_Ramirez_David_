@@ -113,11 +113,14 @@ class Tienda():
             print(f"Datos del distribuidor de la tienda:")
             cursor.execute("SELECT * FROM distribuidora WHERE id=%s",(resultado[3],))
             resultados = cursor.fetchall()
-            for fila in resultados:
-                print(f"id de la distribuidora: {fila[0]}")
-                print(f"Nombre de la compañia: {fila[1]}")
-                print(f"Marca: {fila[2]}")
-                print(f"Producto: {fila[3]}")
+            if resultados:
+                for fila in resultados:
+                    print(f"id de la distribuidora: {fila[0]}")
+                    print(f"Nombre de la compañia: {fila[1]}")
+                    print(f"Marca: {fila[2]}")
+                    print(f"Producto: {fila[3]}")
+            else:
+                print("No se encontraron resultados")
         else:
             print("No se encontró ninguna tienda con el id proporcionado.")
             print("-----------")
@@ -129,10 +132,10 @@ class Distribuidora(Tienda):
         self.consulta_especial = "Tienda a distribuir"
 
     def secuencia_menu(self):
+        print(23456)
         while True:
-            x = distribuidor.menu()
-            print(x)
-            match x:
+            b = distribuidor.menu()
+            match b:
                 case "a":
                     distribuidor.registrar()
                 case "b":
@@ -193,16 +196,14 @@ class Distribuidora(Tienda):
         resultados = cursor.fetchall()
         print("--------------------------------------------------------")
         for fila in resultados:
-            print(f"id de la distribuidora: {fila[0][0]}")
-            print(f"Nombre de la compañia: {fila[0][1]}")
-            print(f"Marca: {fila[0][2]}")
-            print(f"Producto: {fila[0][3]}")
+            print(f"id de la distribuidora: {fila[0]}")
+            print(f"Nombre de la compañia: {fila[1]}")
+            print(f"Marca: {fila[2]}")
+            print(f"Producto: {fila[3]}")
             print("--------------------------------------------------------")
 
     def distribuidor_tienda(self):
         super().distribuidor_tienda()
-
-############################################################################
 
 class Cliente(Tienda):
     def __init__(self):
@@ -223,7 +224,7 @@ class Cliente(Tienda):
                 case "d":
                     self.borrar()
                 case "e":
-                    self.Producto()
+                    self.producto()
                 case "f":
                     break
                 case _:
@@ -286,22 +287,11 @@ class Cliente(Tienda):
             print(f"Telefono del cliente: {fila[2]}")
             print(f"Correo del cliente: {fila[3]}")
             print("--------------------------------------------------------")
-    def Producto(self):
-        #aqui escribo el codigo que me muestra la informacion del producto que 
-        #compro cliente
-        """""
-        No, tienes que generar nuevo codigo para eso.
-        En este caso seria
-        Lista de pasos:
-        1.-Mostrar los clientes
-        2.-Pedir que el usuario ingrese el id del cliente que va a revisar
-        3.-Hacer una consulta para revisar los datos del cliente y poder almacenar en una variable la llave foranea (Opcional agregarle la parte donde muestre los datos del cliente lo principal es tener la llave foranea en un variable, por ejemplo yo la almaceno en una lista y muestro los datos)
-        4.-Consultar que producto tiene esa llave foranea, y almacenar los resultados.
-        5.-Imprimir los datos
-        """""       
+    
+    def producto(self):  
         cliente.consultar()
-        id = input("Ingrese el id del producto del cliente a consultar: ")
-        cursor.execute("SELECT * FROM tienda WHERE id=%s",(id,))
+        id = input("Ingrese el id del cliente a consultar: ")
+        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
         Mostrar = cursor.fetchone()
         if Mostrar:
             print("Datos de cliente")
@@ -310,24 +300,26 @@ class Cliente(Tienda):
             print(f"Numero del cliente: {Mostrar[2]}")
             print(f"Correo del cliente: {Mostrar[3]}")
             print("-----------------")
-            print(f"Datos del Producto:")
-            cursor.execute("SELECT * FROM productos WHERE id=%s",(Mostrar[3],))
+            print(f"Datos del Producto comprado:")
+            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
             resultados = cursor.fetchall()
-            for fila in resultados:
-                print(f"id dels Producto: {fila[0]}")
-                print(f"Tipo de Producto: {fila[1]}")
-                print(f"Marca: {fila[2]}")
+            if resultados:
+                for fila in resultados:
+                    print(f"id dels Producto: {fila[0]}")
+                    print(f"Tipo de Producto: {fila[1]}")
+                    print(f"Marca: {fila[2]}")
             else:
-                print("No se encontro ningun producto en la tineda con el id proporcionado.")
-                print("---------")
-                print("--------------------------------------------------------")
-
-###########################################################################
+                print("No se encontraron resultados")
+        else:
+            print("No se encontro ningun producto en la tineda con el id proporcionado.")
+            print("---------")
+            print("--------------------------------------------------------")
 
 class Producto(Tienda):
     def __init__(self):
         self.tabla = "productos"
         self.consulta_especial = "producto tienda"
+
     def secuencencia_menu(self):
         while True:
             x = productos.menu()
@@ -403,28 +395,31 @@ class Producto(Tienda):
         print("--------------------------------------------------------")
 
     def compra(self):
-        print("hola")
-        self.consultar()
-        id = input("ingresar el id del producto del cliente:")
-        cursor.execute("SELECT * FROM productos WHERE id=%s", (id,))
+        cliente.consultar()
+        id = input("Ingrese el id del cliente a consultar: ")
+        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
         Mostrar = cursor.fetchone()
         if Mostrar:
             print("Datos de cliente")
-            print(f"id del producto: {Mostrar[0]}")
-            print(f"Tipo de producto: {Mostrar[1]}")
-            print(f"Marca del producto: {Mostrar[2]}")
+            print(f"id del cliente: {Mostrar[0]}")
+            print(f"Nombre del cliente: {Mostrar[1]}")
+            print(f"Numero del cliente: {Mostrar[2]}")
+            print(f"Correo del cliente: {Mostrar[3]}")
             print("-----------------")
-            print(f"Datos Del producto")
-            cursor.execute("SELECT * FROM productos WHERE id=%s", (Mostrar[2],))
-            resultado = cursor.fetchall()
-            for fila in resultado:
-                print(f"id del cliente:{fila[0]}")
-                print(f"Nombre del cliente:{fila[1]}")
-                print(f"Telefono del cliente:{fila[2]}")
-                print(f"Correo del cliente:{fila[3]}")
+            print(f"Datos del Producto comprado:")
+            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
+            resultados = cursor.fetchall()
+            if resultados:
+                for fila in resultados:
+                    print(f"id dels Producto: {fila[0]}")
+                    print(f"Tipo de Producto: {fila[1]}")
+                    print(f"Marca: {fila[2]}")
+            else:
+                print("No se encontraron resultados")
         else:
-            print("No se encontró ningún cliente con el id del producto proporcionado")
-        print("--------------------------------------------------------")
+            print("No se encontro ningun producto en la tineda con el id proporcionado.")
+            print("---------")
+            print("--------------------------------------------------------")
 
 
 ###########################################################################
@@ -446,7 +441,7 @@ while True:
     x = input("¿Cual opcion deseas escojer?")
     match x:
         case "a":
-            distribuidor.menu()
+            distribuidor.secuencia_menu()
         case "b":
             tienda.secuencia_menu()
         case "c":
