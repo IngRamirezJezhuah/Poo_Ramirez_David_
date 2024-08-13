@@ -458,5 +458,4 @@ while True:
 if connection.is_connected():
     connection.close()
     print("Conexión cerrada")
-
-
+    print("Adios bye bye ૮₍´｡ᵔ ꈊ ᵔ｡`₎ა ")

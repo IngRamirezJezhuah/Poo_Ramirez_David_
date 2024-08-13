@@ -1,100 +1,101 @@
 #crear un programa que realice las funciones de una base de datos con la terminal commit "Programa-30 realizar una base de datos"
 
 import mysql.connector
+#SI FUNCIONA !!NO LE MUEVAS!!
+#Conexion con la BD de MySQL
+conecction=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="gestion_de_presos"
+)
+cursor = conecction.cursor()
+#Edgar lo que vas a hacer es encargarte de hacer las funciones de registrar
+class Preso:
+    def __init__(self):
+        self.presos = "presos"
+        
+    def secuencia_menu(self):
+        while True:
+            x = self.menu()#esta es una variable que abre nuestro menu y segun lo que escojas es lo que se va a ejecutar
+            match x:#parecido al while true lo que hace es que segun el valor de x te va a escojer una opcion y la va a ejecutar
+                case "1":
+                    self.registrar()
+                case "2":
+                    self.editar()
+                case "3":
+                    self.eliminar()
+                case "4":
+                    self.consulta()
+                case "5":
+                    break
+                case _:
+                    print("Favor de escribir una opcion valida")
 
-# Función para conectar a la base de datos
-def conectar():
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="bdescolares"
-    )
-    return connection
+    def menu(self):#SI FUNCIONA !!NO LE MUEVAS!!
+        print("_________________________________________")
+        print(f"|{self.presos.center(39)}|")
+        print("|                                       |")
+        print("|Accion a realizar a la tabla:          |")
+        print("|1)Registrar                            |")
+        print("|2)Editar                               |")
+        print("|3)eliminar                             |")
+        print("|4)consultar                            |")
+        print("|5)salir                                |")
+        print("_________________________________________")
+        return input("¿Cual opcion deseas escojer?")
 
-# Función para crear una tabla
-def crear_tabla():
-    connection = conectar()
-    cursor = connection.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS alumnos (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255),
-            edad INT,
-            direccion VARCHAR(255),
-            id_maestro INT
-        )
-    ''')
-    connection.commit()
-    cursor.close()
-    connection.close()
-    print("Tabla creada exitosamente.")
+    def registrar(self):
+        Nombre= input("inserte el nombre del preso: ")
+        Años_carcel= input("ingrese el tiempo de la condena: ")
+        Zona_Celda= input("ingrese la area asignada del preso: ")
+        Crimen= input("ingrese el crimen del preso: ")
+        query = "INSERT INTO preso (Nombre,Años_Carcel,Zona_Celda,Crimen) VALUES (%s,%s,%s,%s)"
+        cursor.execute(query, (Nombre,Años_carcel,Zona_Celda,Crimen))
+        conecction.commit()
+        print("se relaizo correctamente el registro...")
 
-# Función para mostrar los datos de la tabla
-def mostrar_base():
-    connection = conectar()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM alumnos")
-    resultados = cursor.fetchall()
-    for fila in resultados:
-        print(fila)
-    cursor.close()
-    connection.close()
+    def editar(self):
+        self.consulta()
+        id = input("Ingrese id del preso a editar:")
+        cursor.execute("SELECT * FROM `preso` WHERE id = %s;",(id,))
+        resultado = cursor.fetchall()
 
-# Función para insertar datos en la tabla
-def registrar_alumno():
-    connection = conectar()
-    cursor = connection.cursor()
-    nombre = input("Ingrese su Nombre: ")
-    edad = int(input("Ingrese su Edad: "))
-    direccion = input("Ingrese su Dirección: ")
-    id_maestro = int(input("Ingrese el ID del Maestro: "))
-    cursor.execute(
-        "INSERT INTO alumnos (nombre, edad, direccion, id_maestro) VALUES (%s, %s, %s, %s)",
-        (nombre, edad, direccion, id_maestro)
-    )
-    connection.commit()
-    cursor.close()
-    connection.close()
-    print("Alumno registrado exitosamente.")
+        print(f"id del preso {resultado[0][0]}")
+        print(f"Nombre del preso {resultado[0][1]}")
+        Nombre = input("Ingrese el Nombre del preso: ")
+        print(f"Años de carcel{resultado[0][2]}")
+        Años_carcel = input("Ingrese los años de carcel: ")
+        print(f"zona de la celda {resultado[0][3]}")
+        Zona_Celda = input("Ingrese la Zona nueva: ")
+        print(f"Crimen del preso {resultado[0][4]}")
+        Crimen = input("Ingrese el Crimen cometido: ")
+        comando = "UPDATE preso SET id=%s,Nombre=%s,Años_Carcel=%s,Zona_Celda=%s,Crimen=%s WHERE id =%s"
+        cursor.execute(comando, (Nombre,Años_carcel,Zona_Celda,Crimen))
+        conecction.commit()
+        print("------------------------------------")
+        print("edicion completada")
+        
 
-# Función para eliminar datos de la tabla
-def eliminar_alumno():
-    connection = conectar()
-    cursor = connection.cursor()
-    borrar = input("Ingrese el ID del usuario que quiere borrar: ")
-    cursor.execute("DELETE FROM alumnos WHERE id = %s", (borrar,))
-    if cursor.rowcount > 0:
-        print(f"Usuario con ID {borrar} borrado exitosamente.")
-    else:
-        print(f"No se encontró ningún usuario con ID {borrar}.")
-    connection.commit()
-    cursor.close()
-    connection.close()
+    def eliminar(self):
+        self.consulta()
+        id = input("ingresar el id del preso a eliminar:")
+        borrar = f"DELETE FROM preso WHERE id = {id}"
+        cursor.execute(borrar)
+        conecction.commit()
+        print("Preso eliminado correctamente")
 
-# Menú principal
-def menu():
-    while True:
-        print("\nOpciones:")
-        print("1. Crear tabla")
-        print("2. Mostrar base de datos")
-        print("3. Registrar alumno")
-        print("4. Eliminar alumno")
-        print("5. Salir")
-        opcion = input("Seleccione una opción: ")
-
-        if opcion == "1":
-            crear_tabla()
-        elif opcion == "2":
-            mostrar_base()
-        elif opcion == "3":
-            registrar_alumno()
-        elif opcion == "4":
-            eliminar_alumno()
-        elif opcion == "5":
-            break
+    def consulta(self):
+        cursor.execute("SELECT * FROM preso")
+        Mostrar = cursor.fetchall()
+        print("---------------------------------------")
+        if Mostrar:
+            for fila in Mostrar:
+                print(f"id del preso {fila[0]}")
+                print(f"Nombre del preso: {fila[1]}")
+                print(f"Años de carcel: {fila[2]}")
+                print(f"Zona celda: {fila[3]}")
+                print(f"Crimen cometido: {fila[4]}")
+                print("--------------------------------------------------------")
         else:
-            print("Opción no válida. Por favor, intente de nuevo.")
-
-
-menu()
+            print("no hay datos disponibles")
