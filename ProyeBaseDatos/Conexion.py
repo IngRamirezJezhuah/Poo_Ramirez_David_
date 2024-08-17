@@ -171,13 +171,23 @@ class Compra():
         return input("¿Cual opcion deseas escojer?: ")
     
     def registrar(self):
-        fecha = input("ingresa la fecha de compra: ")
-        factura = input("ingrese el numero de Factura: ")
+        producto_id = int(input("Ingrese el ID del producto: "))
+        cliente_id = int(input("Ingrese el ID del cliente: "))
+        fecha = input("Ingresa la fecha de compra (YYYY-MM-DD): ")
+        factura = input("Ingrese el número de factura: ")
         total = input("Ingrese el total de la compra: ")
-        query = "INSERT INTO compra (Fecha,Factura,Total) VALUES (%s,%s,%s)"
-        cursor.execute(query, (fecha,factura,total))
-        connection.commit()
-        print("Cliente Registrado")
+        
+        # Consulta SQL para insertar en la tabla compra
+        query = "INSERT INTO compra (Producto_id, Cliente_id, Fecha, Factura, Total) VALUES (%s, %s, %s, %s, %s)"
+        
+        try:
+            cursor.execute(query, (producto_id, cliente_id, fecha, factura, total))
+            connection.commit()
+            print("Compra registrada exitosamente.")
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+
+
 
     def borrar(self):
         cliente.consultar()
@@ -221,14 +231,16 @@ class Compra():
         cursor.execute("SELECT * FROM compra")
         Mostrar = cursor.fetchall()
         print("--------------------------------------------------------")
-        for fila in Mostrar:
-            print(f"Id del producto: {Mostrar[0]}")
-            print(f"id del Cliente: {Mostrar[2]}")
-            print(f"Fecha de compra: {Mostrar[3]}")
-            print(f"No. de factura: {Mostrar[4]}")
-            print(f"Total de la compra: {Mostrar[5]}")
-            print("--------------------------------------------------------")
-    
+        if Mostrar:
+            for fila in Mostrar:
+                print(f"Id del producto: {Mostrar[0]}")
+                print(f"id del Cliente: {Mostrar[2]}")
+                print(f"Fecha de compra: {Mostrar[3]}")
+                print(f"No. de factura: {Mostrar[4]}")
+                print(f"Total de la compra: {Mostrar[5]}")
+                print("--------------------------------------------------------")
+        else:
+            print("No se encontraron datos disponibles")
     def producto(self):  
         cliente.consultar()
         id = input("Ingrese el id del cliente a consultar: ")
