@@ -60,6 +60,7 @@ class Cliente():
         cursor.execute(borrar)
         connection.commit()
         print("Cliente eliminado exitosamente")
+        
     
 
     def editar(self):
@@ -81,7 +82,7 @@ class Cliente():
             print(f"Correo del Cliente: {resultados[0][3]}")
             correo = input("Ingresa el correo electrónico: ")
             
-            comando = "UPDATE cliente SET Nombre = %s, Telefono = %s, Correo = %s WHERE id = %s"
+            comando = "UPDATE cliente SET Nombre = %s, Curp = %s, Telefono = %s, Correo = %s, facturacion = %s WHERE id = %s"
             cursor.execute(comando, (nombreCliente,curp,telefono,correo, id))
             connection.commit()
             
@@ -108,32 +109,6 @@ class Cliente():
         else:
             print("no se encontraron datos disponibles")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
 
 #///////////////////////////////////////////////////////////////////////////////
 class Compra():
@@ -171,21 +146,25 @@ class Compra():
         return input("¿Cual opcion deseas escojer?: ")
     
     def registrar(self):
-        producto_id = int(input("Ingrese el ID del producto: "))
-        cliente_id = int(input("Ingrese el ID del cliente: "))
+        producto.consultar()
+        datos = cursor.fetchall
+        if datos:
+            producto_id = int(input("Ingrese el ID del producto: "))
+            cliente_id = int(input("Ingrese el ID del cliente: "))
+        else:
+            print("no hay datos registrados")
+
         fecha = input("Ingresa la fecha de compra (YYYY-MM-DD): ")
         factura = input("Ingrese el número de factura: ")
         total = input("Ingrese el total de la compra: ")
         
         # Consulta SQL para insertar en la tabla compra
         query = "INSERT INTO compra (Producto_id, Cliente_id, Fecha, Factura, Total) VALUES (%s, %s, %s, %s, %s)"
+
+        cursor.execute(query, (producto_id, cliente_id, fecha, factura, total))
+        connection.commit()
+        print("Compra registrada exitosamente.")
         
-        try:
-            cursor.execute(query, (producto_id, cliente_id, fecha, factura, total))
-            connection.commit()
-            print("Compra registrada exitosamente.")
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
 
 
 
@@ -199,25 +178,28 @@ class Compra():
     
 
     def editar(self):
-        cliente.consultar()
+        compra.consultar()
         id = input("Ingrese el ID del cliente a editar: ")
         cursor.execute("SELECT * FROM cliente WHERE id = %s", (id,))
         resultados = cursor.fetchall()
         if resultados:  # Verificar si se encontró un cliente con ese ID
             print(f"Id del producto: {resultados[0][0]}")
-            print(f"id del Cliente: {resultados[0][2]}")
+            id_producto = input("ingrese el numero de Factura: ")
 
-            print(f"Fecha de compra: {resultados[0][3]}")
+            print(f"id del Cliente: {resultados[0][1]}")
+            id_cliente = input("ingrese el numero de Factura: ")
+
+            print(f"Fecha de compra: {resultados[0][2]}")
             fecha = input("ingresa la fecha de compra: ")
 
-            print(f"no de factura: {resultados[0][4]}")
+            print(f"no de factura: {resultados[0][3]}")
             factura = input("ingrese el numero de Factura: ")
 
-            print(f"Total de la compra: {resultados[0][5]}")
+            print(f"Total de la compra: {resultados[0][4]}")
             total = input("Ingrese el total de la compra: ")
             
-            comando = "UPDATE cliente SET Nombre = %s, Telefono = %s, Correo = %s WHERE id = %s"
-            cursor.execute(comando, (fecha,factura,total , id))
+            comando = "UPDATE compra SET Fecha = %s, Facutra = %s, Total = %s WHERE id = %s"
+            cursor.execute(comando, (fecha,factura,total,id_cliente,id_producto , id))
             connection.commit()
             
             print("Actualización exitosa")
@@ -233,40 +215,15 @@ class Compra():
         print("--------------------------------------------------------")
         if Mostrar:
             for fila in Mostrar:
-                print(f"Id del producto: {Mostrar[0]}")
-                print(f"id del Cliente: {Mostrar[2]}")
-                print(f"Fecha de compra: {Mostrar[3]}")
-                print(f"No. de factura: {Mostrar[4]}")
-                print(f"Total de la compra: {Mostrar[5]}")
+                print(f"Id del producto: {Mostrar[0][0]}")
+                print(f"id del Cliente: {Mostrar[0][1]}")
+                print(f"Fecha de compra: {Mostrar[0][2]}")
+                print(f"No. de factura: {Mostrar[0][3]}")
+                print(f"Total de la compra: {Mostrar[0][4]}")
                 print("--------------------------------------------------------")
         else:
             print("No se encontraron datos disponibles")
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
+
 
 #///////////////////////////////////////////////////////////////////////////////
 class Empleados():
@@ -304,41 +261,58 @@ class Empleados():
         return input("¿Cual opcion deseas escojer?: ")
     
     def registrar(self):
-        NombreCliente = input("ingresa el nombre del usuario: ")
+        Nombreemple = input("ingresa el nombre del usuario: ")
         Telefono = input("ingrese el telefono del usuario: ")
-        Correo = input("Ingrese el correo electronico: ")
-        query = "INSERT INTO cliente (Nombre,Telefono,Correo) VALUES (%s,%s,%s)"
-        cursor.execute(query, (NombreCliente,Telefono,Correo))
+        Curp = input("Ingrese la curp: ")
+        Cargo = input("Ingrese el cargo: ")
+        fech_contra = input("Ingrese la fecha de contratacion: ")
+        tienda.consultar()
+        datos = cursor.fetchall
+        if  datos:
+            id_tienda = input("Ingrese el id de la tineda donde trabaja:")
+        else:
+            print("no hay tienda registradas")
+        query = "INSERT INTO empleados (Nombre,Telefono,Curp,Cargo,fech_contrat,id_tienda) VALUES (%s,%s,%s,%s,%s,%s)"
+        cursor.execute(query, (Nombreemple,Telefono,Curp,Cargo,fech_contra,id_tienda))
         connection.commit()
         print("Cliente Registrado")
 
     def borrar(self):
         cliente.consultar()
-        id = input("ingrese el id del cliente a borrar: ")
-        borrar = f"DELETE FROM cliente WHERE id = {id}"
+        id = input("ingrese el id del empleado a borrar: ")
+        borrar = f"DELETE FROM empleados WHERE id = {id}"
         cursor.execute(borrar)
         connection.commit()
         print("Cliente eliminado exitosamente")
-    
+        
 
     def editar(self):
-        cliente.consultar()
-        id = input("Ingrese el ID del cliente a editar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id = %s", (id,))
+        empleados.consultar()
+        id = input("Ingrese el ID del empleados a editar: ")
+        cursor.execute("SELECT * FROM empleados WHERE id = %s", (id,))
         resultados = cursor.fetchall()
         if resultados:  # Verificar si se encontró un cliente con ese ID
-            print(f"ID del cliente: {resultados[0][0]}")
-            print(f"Nombre del Cliente: {resultados[0][1]}")
-            NombreCliente = input("Ingresa el nombre del cliente: ")
+            print(f"ID del empleado: {resultados[0][0]}")
+            print(f"Nombre del empleado: {resultados[0][1]}")
+            Nombreemple = input("ingresa el nombre del usuario: ")
+
+            print(f"Nombre del Cliente: {resultados[0][2]}")
+            Telefono = input("ingrese el telefono del usuario: ")
+
+            print(f"Nombre del Cliente: {resultados[0][3]}")
+            Curp = input("Ingrese el correo electronico: ")
+
+            print(f"Nombre del Cliente: {resultados[0][4]}")
+            Cargo = input("Ingrese el correo electronico: ")
+
+            print(f"Nombre del Cliente: {resultados[0][5]}")
+            fech_contra = input("Ingrese el correo electronico: ")
+
+            print(f"Nombre del Cliente: {resultados[0][6]}")
+            id_tienda = input("Ingrese el id de la tineda donde trabaja")
             
-            print(f"Teléfono del Cliente: {resultados[0][2]}")
-            Telefono = input("Ingresa el teléfono del cliente: ")
-            
-            print(f"Correo del Cliente: {resultados[0][3]}")
-            Correo = input("Ingresa el correo electrónico: ")
-            
-            comando = "UPDATE cliente SET Nombre = %s, Telefono = %s, Correo = %s WHERE id = %s"
-            cursor.execute(comando, (NombreCliente, Telefono, Correo, id))
+            comando = "UPDATE empleados SET Nombre = %s, Telefono = %s, Curp = %s, Cargo = %s, fech_contra = %s, id_tienda = %s WHERE id = %s"
+            cursor.execute(comando, (Nombreemple, Telefono, Curp,Cargo, fech_contra ,id_tienda , id))
             connection.commit()
             
             print("Actualización exitosa")
@@ -349,42 +323,18 @@ class Empleados():
 
 
     def consultar(self):
-        cursor.execute("SELECT * FROM cliente")
+        cursor.execute("SELECT * FROM empleados")
         Mostrar = cursor.fetchall()
         print("--------------------------------------------------------")
-        for fila in Mostrar:
-            print(f"id del Cliente {fila[0]}")
-            print(f"Nombre del cliente: {fila[1]}")
-            print(f"Telefono del cliente: {fila[2]}")
-            print(f"Correo del cliente: {fila[3]}")
-            print("--------------------------------------------------------")
-    
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
         if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
+            for fila in Mostrar:
+                print(f"id del Cliente {fila[0]}")
+                print(f"Nombre del cliente: {fila[1]}")
+                print(f"Telefono del cliente: {fila[2]}")
+                print(f"Correo del cliente: {fila[3]}")
+                print("--------------------------------------------------------")
         else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
+            print("No se encontraron datos disponibles")
 
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -423,22 +373,30 @@ class Gerente():
         return input("¿Cual opcion deseas escojer?: ")
     
     def registrar(self):
-        NombreCliente = input("ingresa el nombre del usuario: ")
-        Telefono = input("ingrese el telefono del usuario: ")
-        Correo = input("Ingrese el correo electronico: ")
-        query = "INSERT INTO cliente (Nombre,Telefono,Correo) VALUES (%s,%s,%s)"
-        cursor.execute(query, (NombreCliente,Telefono,Correo))
+        Nombre = input("ingresa el nombre del usuario: ")
+        edad = input("ingrese la edad del gerente: ")
+        curp = input("Ingrese la curp: ")
+        telefono = input("Ingrese el telefono: ")
+        fech_asig = input("Ingrese la fecha de asigancion: ")
+        tienda.consultar()
+        datos = cursor.fetchall
+        if  datos:
+            id_tienda = input("Ingrese el id de la tineda donde trabaja:")
+        else:
+            print("no hay tienda registradas")
+        query = "INSERT INTO  gerente Nombre, Edad, Curp, Telefono, Fech_asig, id_tienda) VALUES  (%s,%s,%s%s,%s,%s)"
+        cursor.execute(query, (Nombre,edad,curp,telefono,fech_asig,id_tienda))
         connection.commit()
         print("Cliente Registrado")
 
     def borrar(self):
         cliente.consultar()
-        id = input("ingrese el id del cliente a borrar: ")
-        borrar = f"DELETE FROM cliente WHERE id = {id}"
+        id = input("ingrese el id del gerente a borrar: ")
+        borrar = f"DELETE FROM gerente WHERE id = {id}"
         cursor.execute(borrar)
         connection.commit()
         print("Cliente eliminado exitosamente")
-    
+        
 
     def editar(self):
         cliente.consultar()
@@ -446,18 +404,27 @@ class Gerente():
         cursor.execute("SELECT * FROM cliente WHERE id = %s", (id,))
         resultados = cursor.fetchall()
         if resultados:  # Verificar si se encontró un cliente con ese ID
-            print(f"ID del cliente: {resultados[0][0]}")
-            print(f"Nombre del Cliente: {resultados[0][1]}")
-            NombreCliente = input("Ingresa el nombre del cliente: ")
-            
-            print(f"Teléfono del Cliente: {resultados[0][2]}")
-            Telefono = input("Ingresa el teléfono del cliente: ")
-            
-            print(f"Correo del Cliente: {resultados[0][3]}")
-            Correo = input("Ingresa el correo electrónico: ")
-            
+            print(f"ID del gerente: {resultados[0][0]}")
+            print(f"Nombre del Gerente: {resultados[0][1]}")
+            Nombre = input("ingresa el nombre del gerente: ")
+
+            print(f"Edad del gerente: {resultados[0][2]}")
+            edad = input("ingrese la edad del gerente: ")
+
+            print(f"Curp del gerente: {resultados[0][3]}")
+            curp = input("Ingrese la curp: ")
+
+            print(f"Telefono del gerente: {resultados[0][4]}")
+            telefono = input("Ingrese el telefono: ")
+
+            print(f"fecha de asignacion del gerente: {resultados[0][5]}")
+            fech_asig = input("Ingrese la fecha de asigancion: ")
+
+            print(f"Tienda donde trabaja: {resultados[0][6]}")
+            id_tienda = input("Ingrese el id de la tineda donde trabaja:")
+
             comando = "UPDATE cliente SET Nombre = %s, Telefono = %s, Correo = %s WHERE id = %s"
-            cursor.execute(comando, (NombreCliente, Telefono, Correo, id))
+            cursor.execute(comando, (Nombre,edad,curp,telefono,fech_asig,id_tienda, id))
             connection.commit()
             
             print("Actualización exitosa")
@@ -468,42 +435,21 @@ class Gerente():
 
 
     def consultar(self):
-        cursor.execute("SELECT * FROM cliente")
-        Mostrar = cursor.fetchall()
-        print("--------------------------------------------------------")
-        for fila in Mostrar:
-            print(f"id del Cliente {fila[0]}")
-            print(f"Nombre del cliente: {fila[1]}")
-            print(f"Telefono del cliente: {fila[2]}")
-            print(f"Correo del cliente: {fila[3]}")
+            cursor.execute("SELECT * FROM gerente")
+            Mostrar = cursor.fetchall()
             print("--------------------------------------------------------")
+            for fila in Mostrar:
+                print(f"ID del gerente: {Mostrar[0][0]}")
+                print(f"Nombre del Gerente: {Mostrar[0][1]}")
+                print(f"Edad del gerente: {Mostrar[0][2]}")
+                print(f"Curp del gerente: {Mostrar[0][3]}")
+                print(f"Telefono del gerente: {Mostrar[0][4]}")
+                print(f"fecha de asignacion del gerente: {Mostrar[0][5]}")
+                print(f"Tienda donde trabaja: {Mostrar[0][6]}")
+                print("--------------------------------------------------------")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
+    
+    
 
 #///////////////////////////////////////////////////////////////////////////////
 class Producto():
@@ -586,42 +532,19 @@ class Producto():
 
 
     def consultar(self):
-        cursor.execute("SELECT * FROM cliente")
+        cursor.execute("SELECT * FROM producto")
         Mostrar = cursor.fetchall()
         print("--------------------------------------------------------")
         for fila in Mostrar:
-            print(f"id del Cliente {fila[0]}")
-            print(f"Nombre del cliente: {fila[1]}")
-            print(f"Telefono del cliente: {fila[2]}")
-            print(f"Correo del cliente: {fila[3]}")
+            print(f"id del Producto {fila[0]}")
+            print(f"Nombre del producto: {fila[1]}")
+            print(f"Tipo de producto: {fila[2]}")
+            print(f"Contenido neto: {fila[3]}")
+            print(f"Contenido calorico: {fila[4]}")
+            print(f"id_tienda: {fila[5]}")
             print("--------------------------------------------------------")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
+    
 
 #///////////////////////////////////////////////////////////////////////////////
 class Provee():
@@ -714,32 +637,6 @@ class Provee():
             print(f"Correo del cliente: {fila[3]}")
             print("--------------------------------------------------------")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
     
 #///////////////////////////////////////////////////////////////////////////////
 class Provedor():
@@ -832,32 +729,6 @@ class Provedor():
             print(f"Correo del cliente: {fila[3]}")
             print("--------------------------------------------------------")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
 
 #///////////////////////////////////////////////////////////////////////////////
 class Tienda():
@@ -940,48 +811,24 @@ class Tienda():
 
 
     def consultar(self):
-        cursor.execute("SELECT * FROM cliente")
+        cursor.execute("SELECT * FROM tienda")
         Mostrar = cursor.fetchall()
         print("--------------------------------------------------------")
         for fila in Mostrar:
-            print(f"id del Cliente {fila[0]}")
-            print(f"Nombre del cliente: {fila[1]}")
-            print(f"Telefono del cliente: {fila[2]}")
-            print(f"Correo del cliente: {fila[3]}")
+            print(f"id de la tienda {fila[0]}")
+            print(f"Nombre de la tienda: {fila[1]}")
+            print(f"Direccion de la tienda: {fila[2]}")
+            print(f"Codigo postal: {fila[3]}")
+            print(f"telefono: {fila[3]}")
+            print(f"fech_funda: {fila[3]}")
             print("--------------------------------------------------------")
     
-    def producto(self):  
-        cliente.consultar()
-        id = input("Ingrese el id del cliente a consultar: ")
-        cursor.execute("SELECT * FROM cliente WHERE id=%s",(id,))
-        Mostrar = cursor.fetchone()
-        if Mostrar:
-            print("Datos de cliente")
-            print(f"id del cliente: {Mostrar[0]}")
-            print(f"Nombre del cliente: {Mostrar[1]}")
-            print(f"Numero del cliente: {Mostrar[2]}")
-            print(f"Correo del cliente: {Mostrar[3]}")
-            print("-----------------")
-            print(f"Datos del Producto comprado:")
-            cursor.execute("SELECT * FROM productos WHERE id_cliente=%s",(Mostrar[0],))
-            resultados = cursor.fetchall()
-            if resultados:
-                for fila in resultados:
-                    print(f"id dels Producto: {fila[0]}")
-                    print(f"Tipo de Producto: {fila[1]}")
-                    print(f"Marca: {fila[2]}")
-            else:
-                print("No se encontraron resultados")
-        else:
-            print("No se encontro ningun producto en la tineda con el id proporcionado.")
-            print("---------")
-            print("--------------------------------------------------------")
 
 cliente = Cliente()
 compra = Compra()
 empleados = Empleados()
 gerente = Gerente()
-produco = Producto()
+producto = Producto()
 provee = Provee()
 provedor = Provedor()
 tienda = Tienda()
@@ -1012,7 +859,7 @@ while True:
         case "4":
             gerente.secuencia_menu()
         case "5":
-            produco.secuencia_menu()
+            producto.secuencia_menu()
         case "6":
             provee.secuencia_menu()
         case "7":
